@@ -1,0 +1,640 @@
+:root {
+  --bg-deep: #0b0c10;
+  --bg-charcoal: #14161b;
+  --soft-purple: #8a2be2;
+  --neon-green: #00ff66;
+  --neon-pink: #ff007f;
+  --muted: rgba(233, 246, 255, 0.75);
+  --surface: rgba(28, 30, 38, 0.92);
+  
+  /* Shared Vibrant Gradient (kept for accents) */
+  --brand-gradient: linear-gradient(135deg, var(--neon-pink), var(--soft-purple), var(--neon-green));
+  --surface-gradient: linear-gradient(145deg, rgba(24, 18, 36, 0.85), rgba(12, 12, 18, 0.9));
+  /* Section panel gradient (multi-color, not just purple) */
+  --section-gradient: linear-gradient(135deg, rgba(6,6,8,0.9) 0%, rgba(20,8,30,0.86) 35%, rgba(34,10,60,0.7) 60%, rgba(8,24,12,0.06) 100%);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Rajdhani', 'Inter', system-ui, -apple-system, sans-serif;
+  color: #e9f6ff;
+}
+
+html, body, #root {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Rich Gradient Background */
+body {
+  /* Solid black background across the whole screen (background only) */
+  background: #000000;
+  background-color: #000000;
+  color-scheme: dark;
+  overflow-y: auto;
+}
+
+/* Ensure no site text uses pure black; set default text color to a readable light tone */
+body, .app { color: #e9f6ff }
+
+.app {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+}
+
+.nav-left{flex:0 0 auto}
+.nav-center{flex:1 1 auto;display:flex;justify-content:center}
+.nav-right{flex:0 0 auto;display:flex;align-items:center}
+.navlinks{display:flex;gap:12px;width:auto;justify-content:center}
+.navlinks button{flex:none;min-width:110px;margin:0 6px}
+
+.navbar .title .main {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  background: linear-gradient(90deg, var(--neon-pink), var(--neon-green));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1.5px;
+}
+
+.navbar .title .sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* UNIFIED BUTTON STYLES - gradient border, glow on click */
+button, .btn, .navlinks button, .filters .reset, .translator .neumorphic.reset, .abduct, .fav, .step-btn {
+  background: rgba(255,255,255,0.03);
+  color: #e9f6ff;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  min-width: 120px;
+  text-align: center;
+}
+
+button:hover, .btn:hover, .navlinks button:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(2,6,23,0.6); }
+
+.navlinks button.active, button.primary { background: rgba(255,255,255,0.04); color: var(--neon-pink); border-color: rgba(255,255,255,0.08) }
+
+.btn.primary{ background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03)); color: #e9f6ff }
+.btn{ background: rgba(255,255,255,0.03) }
+
+/* step button */
+.step-btn{ background: rgba(255,255,255,0.02); padding:8px 12px; border-radius:8px; color:var(--muted); border:1px solid rgba(255,255,255,0.04); min-width:160px; height:44px; display:inline-flex; align-items:center; justify-content:center }
+.step-btn.active{ color:#e9f6ff; background: rgba(255,255,255,0.04) }
+.step-btn:disabled{ opacity:0.38; cursor:not-allowed }
+
+.step-error{ color: #ffb3c6; background: rgba(255,0,127,0.06); padding:8px 12px; border-radius:8px; margin-bottom:10px; font-size:13px }
+
+/* ZERO-G toggle styling */
+.zerog{display:flex;align-items:center;gap:10px}
+.zerog .switch{position:relative;width:56px;height:30px;border-radius:999px;background:linear-gradient(90deg,#0f1114,#16181d);box-shadow: inset 2px 2px 6px rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
+.zerog input{position:absolute;opacity:0;width:0;height:0}
+.zerog .knob{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:linear-gradient(180deg,#ffffff,#dfefff);box-shadow:0 6px 16px rgba(0,0,0,0.6);transition:all 0.25s ease}
+.zerog input:checked + .knob{left:29px; background: linear-gradient(180deg,var(--neon-green),#b7ffd6); box-shadow: 0 8px 22px rgba(0,255,102,0.14)}
+.zerog .label{font-size:12px;color:var(--muted);margin-left:8px}
+
+/* UNIFIED DROPDOWNS & INPUTS */
+select, input, textarea {
+  width: 100%;
+  background: linear-gradient(90deg, rgba(138,43,226,0.06), rgba(255,0,127,0.04));
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #f0fff6;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.18s ease;
+}
+
+select option { background-color: var(--bg-charcoal); color: #e9f6ff }
+
+select:focus, input:focus, textarea:focus {
+  border-color: var(--neon-pink);
+  box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.6), 0 0 14px rgba(138,43,226,0.08);
+}
+
+/* Full-Bleed Layout Grid */
+.container {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  margin-top: 20px;
+  width: 100%;
+  height: calc(100vh - 130px);
+}
+
+/* container modes: when sidebar hidden make main full width */
+.container.full { grid-template-columns: 1fr }
+.container.with-left { grid-template-columns: 320px 1fr }
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--section-gradient);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 8px 28px rgba(2,6,23,0.6);
+}
+
+/* Reusable section panel style */
+.section {
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--section-gradient);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 8px 28px rgba(2,6,23,0.6);
+}
+
+/* Apply same panel look to other main areas */
+.supreme-sidebar, .rejected, .accepted, .survival-panel {
+  background: var(--section-gradient);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 8px 28px rgba(2,6,23,0.6);
+  padding: 14px;
+  border-radius: 12px;
+}
+
+/* Profile Grid */
+.grid {
+  /* Pinterest-like masonry using CSS columns - minimal */
+  column-count: 3;
+  column-gap: 18px;
+  padding-right: 6px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Card Styling */
+.card {
+  display: inline-block; /* for column masonry */
+  width: 100%;
+  vertical-align: top;
+  box-sizing: border-box;
+  gap: 10px;
+  padding: 14px;
+  margin-bottom: 18px;
+  border-radius: 12px;
+  background: var(--section-gradient);
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: all 0.18s ease;
+}
+
+.card:hover { transform: translateY(-6px); box-shadow: 0 8px 18px rgba(0,0,0,0.6) }
+
+/* Responsive avatar sizing for cards */
+.avatar-wrap { width: clamp(120px, 12vw, 160px); height: clamp(120px, 12vw, 160px); border-radius: 999px; overflow: hidden; border: 1px solid rgba(255,255,255,0.04); display:flex;align-items:center;justify-content:center }
+.avatar { width: 100%; aspect-ratio: 1/1; object-fit:cover; display:block }
+
+.card-inner{display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:start}
+.pfp-col{display:flex;flex-direction:column;align-items:center;gap:8px}
+.meta-col{display:flex;flex-direction:column;gap:8px}
+
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
+.chip.green{background:rgba(0,255,102,0.08);color:var(--neon-green)}
+.chip.red{background:rgba(255,0,127,0.06);color:var(--neon-pink)}
+
+.bio{font-size:13px;color:#dfefff;line-height:1.2;max-height:2.6em;overflow:hidden}
+.name{ font-size: clamp(15px, 1.6vw, 20px); font-weight:700 }
+.species{ font-size: clamp(11px, 1.1vw, 14px); color: var(--muted) }
+.stat-row{display:flex;gap:8px;flex-wrap:wrap}
+.stat{font-size:12px;color:var(--muted);background:transparent;padding:6px;border-radius:8px}
+
+.likes-row{display:flex;gap:8px}
+
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;justify-content:center;width:100%}
+.admin-actions{display:flex;gap:8px}
+.admin-actions .edit, .admin-actions .delete{padding: clamp(6px,1.2vw,10px) clamp(8px,1.6vw,12px);border-radius:8px;font-size: clamp(12px,1.2vw,14px);border:1px solid rgba(255,255,255,0.06);background:transparent;color:#e9f6ff}
+.admin-actions .edit{background: rgba(255,0,127,0.06)}
+.admin-actions .delete{background: rgba(0,255,102,0.04); color:#eaffef}
+
+/* Zero-G floating: apply subtle float to major UI pieces */
+.zero-g-mode .card,
+.zero-g-mode .navbar,
+.zero-g-mode .create,
+.zero-g-mode .translator,
+.zero-g-mode .filters,
+.zero-g-mode .survival-panel,
+.zero-g-mode .compat,
+.zero-g-mode .compatibility-panel,
+.zero-g-mode .accepted,
+.zero-g-mode .rejected,
+.zero-g-mode .main-profile {
+  animation: floaty 6s ease-in-out infinite;
+}
+
+@keyframes floaty {
+  0% { transform: translateY(0) rotate(-0.4deg); }
+  25% { transform: translateY(-8px) rotate(0.6deg); }
+  50% { transform: translateY(0) rotate(-0.2deg); }
+  75% { transform: translateY(8px) rotate(0.8deg); }
+  100% { transform: translateY(0) rotate(-0.4deg); }
+}
+
+/* Main area full-screen behavior */
+.main { height: 100%; overflow: auto }
+.main > div { min-height: 100% }
+
+/* Full-page main profile view */
+.main-profile{ display:flex; align-items:center; justify-content:center; height:100%; padding:24px }
+ .main-profile{ display:flex; align-items:center; justify-content:center; height:100%; padding:24px }
+ .main-profile .card{ width:820px; max-width:96vw; padding:22px }
+
+/* Make the Supreme Leader full-page within the main profile view, leaving a consistent margin */
+.main-profile .card.supreme{
+  width: calc(100% - 96px);
+  max-width: none;
+  height: calc(100% - 96px);
+  margin: 48px;
+  padding: 36px;
+  display: block;
+  align-items: stretch;
+}
+
+/* Ensure inner layout of the supreme card adapts to larger area */
+.main-profile .card.supreme{
+  width: clamp(600px, 70vw, 920px);
+  max-width: 92vw;
+  height: auto;
+  max-height: calc(100% - 64px);
+  margin: 24px;
+  padding: 22px;
+  display: block;
+  align-items: stretch;
+}
+
+/* Compact inner layout for Supreme Leader */
+.main-profile .card.supreme .card-inner{
+  display: grid;
+  grid-template-columns: clamp(160px, 22vw, 280px) 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.main-profile .card.supreme .pfp-col{ align-items: center; justify-content: flex-start }
+.main-profile .card.supreme .avatar-wrap{ width: clamp(140px, 14vw, 200px); height: clamp(140px, 14vw, 200px); border-radius: 12px }
+.main-profile .card.supreme .meta-col{ display:flex; flex-direction:column; gap:14px; justify-content:space-between; height:100% }
+.main-profile .card.supreme .header-row .name{ font-size: clamp(20px, 2.5vw, 32px); font-weight:800 }
+.main-profile .card.supreme .header-row .species{ font-size: clamp(12px, 1vw, 14px) }
+.main-profile .card.supreme .bio{ max-height: none; overflow:auto; font-size: clamp(13px, 1.1vw, 15px) }
+.main-profile .card.supreme .actions{ justify-content:flex-end; margin-top:12px }
+
+/* Slightly smaller buttons within the supreme card for a compact look */
+.main-profile .card.supreme .btn,
+.main-profile .card.supreme button{ min-width:150px; height:44px; font-size:14px }
+
+/* Adjust admin action buttons */
+.main-profile .card.supreme .admin-actions .edit,
+.main-profile .card.supreme .admin-actions .delete{ padding:8px 10px; font-size:13px }
+
+/* Slightly smaller chips and stats */
+.main-profile .card.supreme .chip{ font-size:12px; padding:6px 8px }
+.main-profile .card.supreme .stat{ font-size:13px }
+
+/* Center the Create form in viewport when visible */
+.main .create {
+  display: grid;
+  place-items: stretch;
+  height: 100%;
+  background: var(--section-gradient);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+/* make the form itself a two-column layout: vertical step buttons on left, form on right */
+.main .create form {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 18px;
+  width: 820px;
+  max-width: 96vw;
+  position: relative;
+}
+
+/* step buttons container becomes a vertical column on the left spanning both rows */
+.main .create form > div:first-child {
+  grid-column: 1 / 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+/* make each step button fill the left column like a table column */
+.main .create form > div:first-child .step-btn {
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+/* the form content tables occupy the right column */
+.main .create form .form-table,
+.main .create form .section { grid-column: 2 / 3; grid-row: 1 / 2; }
+
+/* action buttons row anchors to bottom-right of the right column */
+.main .create form > div:last-child {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  justify-self: center;
+  align-self: end;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* make action buttons slightly larger and aligned */
+.main .create .btn { min-width: 140px; height:44px }
+.main .create .step-btn { min-width: 160px }
+.main .create button { min-width: 140px; height:44px }
+.main .create .btn:disabled, .main .create button:disabled { opacity:0.5; cursor:not-allowed }
+
+/* table form styling */
+.form-table{ width:100%; border-collapse:collapse; }
+.form-table td{ padding:8px 6px; vertical-align:middle }
+.form-table td:first-child{ width:36%; color:var(--muted); font-size:13px }
+.form-table input, .form-table textarea, .form-table select{ width:100% }
+
+.supreme-sidebar{ margin-top:12px; display:flex;flex-direction:column;gap:10px;align-items:center }
+.upreme-title{ color:var(--muted); font-size:13px; margin:4px 0 }
+.supreme-sidebar .card{ width:100%; max-width: 380px; margin: 0 auto }
+
+/* Supreme profile special styling */
+.card.supreme{ background: var(--surface-gradient); border: 1px solid rgba(138, 43, 226, 0.2); box-shadow: 0 10px 34px rgba(0,0,0,0.6); padding:18px }
+.card.supreme .avatar-wrap{ width:160px;height:160px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.04)}
+.card.supreme .name{ font-size:20px; font-weight:700; color: var(--neon-pink) }
+.card.supreme .species{ color: var(--muted) }
+.card.supreme .chip{ background: rgba(255,255,255,0.02); color: var(--muted) }
+
+/* Button click glow for all buttons */
+button:active, .btn:active, .step-btn:active { transform: translateY(1px); box-shadow: 0 4px 12px rgba(2,6,23,0.6); }
+
+.create textarea {
+  grid-column: span 2;
+  min-height: 100px;
+}
+
+.create button {
+  grid-column: span 2;
+  justify-self: center;
+  width: 50%;
+  margin-top: 10px;
+  padding: 14px;
+}
+
+/* Translator Section */
+.translator {
+  grid-column: 1 / -1;
+  padding: 24px;
+  border-radius: 18px;
+  background: var(--section-gradient);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.translator .output {
+  margin-top: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(5, 5, 8, 0.8);
+  border: 1px solid var(--neon-pink);
+  color: var(--neon-green);
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Toast notifications */
+.toast{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  background: linear-gradient(90deg, rgba(255,0,127,0.14), rgba(138,43,226,0.12));
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px;
+  z-index: 9999;
+  animation: toast-in 220ms ease-out;
+}
+
+@keyframes toast-in{
+  from { transform: translateY(8px); opacity: 0 }
+  to { transform: translateY(0); opacity: 1 }
+}
+
+/* Compatibility panel styling */
+.compatibility-panel {
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--section-gradient);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 8px 28px rgba(2,6,23,0.6);
+}
+
+.compatibility-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--neon-pink);
+  text-transform: uppercase;
+}
+
+.compatibility-panel h2 {
+  margin: 0;
+  font-size: clamp(24px, 2vw, 32px);
+  font-family: 'Orbitron', sans-serif;
+}
+
+.compat-pill {
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255,255,255,0.05);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.compat-selection-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.compat-action-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 18px;
+}
+
+.compat-check-btn {
+  min-width: 180px;
+}
+
+.compat-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.compat-field span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.compat-result {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.compat-score-box {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.compat-score-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.compat-score-number {
+  margin: 10px 0 8px;
+  font-size: clamp(28px, 3vw, 52px);
+  font-family: 'Orbitron', sans-serif;
+  color: var(--neon-green);
+}
+
+.compat-meter {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.compat-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--neon-pink), var(--soft-purple), var(--neon-green));
+}
+
+.compat-compare-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.compat-profile-card {
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 16px;
+}
+
+.compat-profile-card h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.compat-profile-card p {
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+
+.compat-profile-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #dfefff;
+  line-height: 1.8;
+  font-size: 13px;
+}
+
+.compat-reason-box {
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 16px;
+}
+
+.compat-reason-box h4 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--neon-pink);
+}
+
+.compat-reason-box p {
+  margin: 0 0 12px;
+  color: #eaf7ff;
+}
+
+.compat-reason-box ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #dfefff;
+  line-height: 1.8;
+}
+
+.compat {
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--section-gradient);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 8px 28px rgba(2,6,23,0.6);
+}
+
+.compat .pick { display:flex; gap:12px; align-items:center; flex-wrap:wrap }
+
+button { margin: 0; }
+button + button { margin-left: 12px; }
+
+.navlinks { gap: 12px }
+.actions, .admin-actions, .pick, .step-btn-row { gap: 12px }
